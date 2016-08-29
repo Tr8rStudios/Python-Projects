@@ -5,14 +5,15 @@ class AdjacencyMatrix:
     def __init__(self, initSize, simple = False):
         
         self.adjMatrix = []
-        for i in range(initSize):
+        for i in range(initSize): # Create a matrix of defined size
             self.adjMatrix.append([0])
             for j in range(initSize - 1):
                 self.adjMatrix[i].append(0)
                     
         self.size = initSize
-        self.simple = simple
-    def __repr__(self):
+        self.simple = simple # Defines whether the graph is a simple graph
+        
+    def __repr__(self): # Prints the graph as a matrix, than a list
         string = ''
         if self.size > 0:    
             for i in range(self.size - 1):
@@ -41,7 +42,7 @@ class AdjacencyMatrix:
     def __len__(self):
         return self.size
 
-    def addVertex(self, index = None):
+    def addVertex(self, index = None): # Add a new vertex (default is append to end)
         if index == None:
             index = self.size
         else:
@@ -60,7 +61,7 @@ class AdjacencyMatrix:
         
         self.size += 1
 
-    def checkLink(self, row, col):
+    def checkLink(self, row, col): # Return the value of a given link
         assert ( self.size > row
                  and self.size > col
                  and row >= -self.size
@@ -68,13 +69,13 @@ class AdjacencyMatrix:
 
         return self.adjMatrix[row][col]
 
-    def link(self, row, col):
+    def link(self, row, col): # Create a non-directional link
         assert ( self.size > row
                  and self.size > col
                  and row >= -self.size
                  and col >= -self.size ), "Index out of range"
 
-        if self.simple:
+        if self.simple: # Check if the graph is simple
             assert ( self.adjMatrix[row][col] != 1
                      and self.adjMatrix[col][row] != 1 ), "Link already exists"
             assert row != col, "Vertices cannot link to itself in a simple graph"
@@ -86,20 +87,7 @@ class AdjacencyMatrix:
         else:
             self.adjMatrix[row][col] += 1
 
-    def dirLink(self, row, col):
-        assert ( self.size > row
-                 and self.size > col
-                 and row >= -self.size
-                 and col >= -self.size ), "Index out of range"
-
-        if self.simple:
-            assert self.adjMatrix[row][col] != 1, "Link already exists"
-
-            assert row != col, "Vertices cannot link to itself in a simple graph"
-
-        self.adjMatrix[row][col] += 1
-
-    def removeLink(self, row, col):
+    def removeLink(self, row, col): # Remove a link 
         assert ( self.size > row
                  and self.size > col
                  and row >= -self.size
@@ -114,7 +102,20 @@ class AdjacencyMatrix:
         if self.adjMatrix[col][row] > 0:
             self.adjMatrix[col][row] -= 1
 
-    def removeDirLink(self, row, col):
+    def dirLink(self, row, col): # Create a directional link
+        assert ( self.size > row
+                 and self.size > col
+                 and row >= -self.size
+                 and col >= -self.size ), "Index out of range"
+
+        if self.simple:
+            assert self.adjMatrix[row][col] != 1, "Link already exists"
+
+            assert row != col, "Vertices cannot link to itself in a simple graph"
+
+        self.adjMatrix[row][col] += 1
+
+    def removeDirLink(self, row, col): # Remove a directional link
         assert ( self.size > row
                  and self.size > col
                  and row >= -self.size
@@ -124,7 +125,7 @@ class AdjacencyMatrix:
         
         self.adjMatrix[row][col] -= 1
 
-    def __getitem__(self, key):
+    def __getitem__(self, key): # Allow indexing
         return self.adjMatrix[key]
 
 
